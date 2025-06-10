@@ -1,0 +1,32 @@
+body {
+    padding-bottom: 40px;
+}
+
+.hero {
+    background-image: url('/resources/img/masjid.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100px; /* Tinggi efek fade, sesuaikan sesuai kebutuhan */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+    pointer-events: none; /* Pastikan elemen pseudo tidak mengganggu interaksi */
+  }
+
+.JadwalSholat {
+    margin-top: 100px;
+}
