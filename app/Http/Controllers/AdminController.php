@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Berita;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -40,4 +40,15 @@ class AdminController extends Controller
         session()->forget('is_admin');
         return redirect()->route('admin.login');
     }
+
+    public function berita()
+{
+    if (!session('is_admin')) {
+        return redirect()->route('admin.login');
+    }
+
+    $pageTitle = 'Manajemen Berita';
+    $newss = Berita::latest()->get(); // Ambil semua berita dari tabel `news`
+    return view('admin.news.list', compact('pageTitle', 'newss'));
+}
 }
