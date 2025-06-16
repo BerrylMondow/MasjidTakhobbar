@@ -1,18 +1,20 @@
 @extends ('admin.layout.app')
+
 @section('content')
     <div class="container">
         <div class="mb-4">
-            <a href="{{ route('admin.berita') }}" class="btn btn-primary">← Kembali ke Daftar Berita</a>
+            <a href="{{ route('admin.news.list') }}" class="btn btn-primary">← Kembali ke Daftar Berita</a>
         </div>
 
         <div class="card">
             <div class="card-header bg-dark text-white">
                 <h5 class="mb-0">Form Buat Berita</h5>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="max-height: 500px; overflow-y: auto;">
 
                 <!-- FORM MULAI -->
-                <form>
+                <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
                     <div class="mb-3">
                         <label for="gambar" class="form-label">Gambar Berita</label>
@@ -25,7 +27,6 @@
                             placeholder="Masukkan caption gambar">
                     </div>
 
-
                     <div class="mb-3">
                         <label for="judul" class="form-label">Judul Berita</label>
                         <input type="text" class="form-control" id="judul" name="judul"
@@ -36,6 +37,11 @@
                         <label for="deskripsi" class="form-label">Deskripsi Berita</label>
                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Masukkan deskripsi berita"
                             required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tanggal" class="form-label">Tanggal Berita</label>
+                        <input type="datetime-local" class="form-control" id="tanggal" name="tanggal" required>
                     </div>
 
                     <div class="mb-3">

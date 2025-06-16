@@ -57,7 +57,7 @@
     <h4>admin.</h4>
     <a href="#"><i class="bi bi-brightness-high"></i> Dashboard</a>
     <a href="{{route('admin.news.list')}}"><i class="bi bi-brightness-high"></i> Berita</a>
-    <a href="#"><i class="bi bi-brightness-high"></i> Donasi</a>
+    <a href="{{ route('admin.donasi.list') }}"><i class="bi bi-brightness-high"></i> Donasi</a>
     <a href="#"><i class="bi bi-brightness-high"></i> Keuangan</a>
   </div>
 

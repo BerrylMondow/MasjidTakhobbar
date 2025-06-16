@@ -51,4 +51,109 @@ class AdminController extends Controller
     $newss = Berita::latest()->get(); // Ambil semua berita dari tabel `news`
     return view('admin.news.list', compact('pageTitle', 'newss'));
 }
+
+public function create()
+    {
+        $pageTitle = 'Buat Berita';
+        return view('admin.news.add', compact('pageTitle'));
+    }
+
+    public function edit($id)
+    {
+        $news = Berita::findOrFail($id);
+        $pageTitle = 'Edit Berita';
+        return view('admin.news.edit', compact('news', 'pageTitle'));
+    }
+
+    // === PROSES UPDATE ===
+    public function update(Request $request, $id)
+    {
+        $news = Berita::findOrFail($id);
+
+        // Validasi
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'tanggal' => 'required|date',
+            'keyword' => 'required|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar_caption' => 'nullable|string|max:255',
+        ]);
+
+        // Update data dasar
+        $news->judul = $request->judul;
+        $news->deskripsi = $request->deskripsi;
+        $news->tanggal = $request->tanggal;
+        $news->keyword = $request->keyword;
+        $news->gambar_caption = $request->gambar_caption;
+
+        // Kalau ada gambar baru, ganti
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama (opsional)
+            if ($news->gambar && file_exists(public_path('public' . $news->gambar))) {
+                unlink(public_path('public' . $news->gambar));
+            }
+
+            // Simpan gambar baru
+            $gambarName = time() . '.' . $request->gambar->extension();
+            $request->gambar->move(public_path('public'), $gambarName);
+            $news->gambar = $gambarName;
+        }
+
+        $news->save();
+
+        return redirect()->route('admin.news.list')->with('success', 'Berita berhasil diupdate!');
+    }
+
+public function store(Request $request)
+{
+    // Validasi
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
+        'tanggal' => 'required|date',
+        'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'gambar_caption' => 'nullable|string|max:255',
+        'keyword' => 'required|string|max:255',
+    ]);
+
+    // Upload gambar
+    $gambarName = time() . '.' . $request->gambar->extension();
+    $request->gambar->move(public_path('public'), $gambarName);
+
+    // Simpan ke DB
+    \DB::table('artikel')->insert([
+        'judul' => $request->judul,
+        'deskripsi' => $request->deskripsi,
+        'tanggal' => $request->tanggal,
+        'gambar' => $gambarName,
+        'gambar_caption' => $request->gambar_caption,
+        'keyword' => $request->keyword,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return redirect()->route('admin.news.list')->with('success', 'Berita berhasil disimpan!');
+}
+
+  public function destroy($id)
+    {
+        if (!session('is_admin')) {
+        return redirect()->route('admin.login');
+    }
+
+        $news = Berita::findOrFail($id);
+
+        // Hapus file gambar kalau ada
+        if ($news->gambar && file_exists(public_path('public' . $news->gambar))) {
+            unlink(public_path('public' . $news->gambar));
+        }
+
+        $news->delete();
+
+        return redirect()->route('admin.news.list')->with('success', 'Berita berhasil dihapus!');
+    }
+
+
+
 }

@@ -5,7 +5,7 @@ use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminBeritaController;
+use App\Http\Controllers\AdminDonasiController;
 
 // Halaman Umum
 Route::get('/', [WelcomeController::class, 'index']);
@@ -30,8 +30,16 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 
 // Admin Berita
 Route::get('/admin/berita', [AdminController::class, 'berita'])->name('admin.news.list');
-Route::get('/berita/create', [AdminController::class, 'create'])->name('admin.news.add');
-Route::post('/admin/berita/store', [AdminController::class, 'store'])->name('admin.berita.store'); // Simpan berita
+Route::get('/admin/berita/create', [AdminController::class, 'create'])->name('admin.news.add');
+Route::post('/admin/berita/store', [AdminController::class, 'store'])->name('admin.news.store');
+
+
+ // Simpan berita
 Route::get('admin/berita/edit/{id}', [AdminController::class, 'edit'])->name('admin.news.edit');
 Route::post('admin/berita/update/{id}', [AdminController::class, 'update'])->name('admin.berita.update'); // Edit berita
-Route::delete('/admin/berita/{id}', [AdminController::class, 'destroy'])->name('admin.news.destroy'); // Hapus berita
+// Hapus berita
+Route::delete('/admin/berita/{id}', [AdminController::class, 'destroy'])->name('admin.news.destroy');
+
+
+// Donasi
+Route::get('/admin/donasi', [AdminDonasiController::class, 'index'])->name('admin.donasi.list');

@@ -1,5 +1,6 @@
 @extends('admin.layout.app')
 @section('content')
+
     <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -23,22 +24,17 @@
         </div>
     </div>
 
-
-
-
+    <!-- Konten Daftar Berita -->
     <div class="container mt-4">
-        <div class="container mb-4">
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <div>
-                        {{ session('success') }}
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <a href="{{ route('admin.news.add') }}" class="btn btn-primary">Buat Berita</a>
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <div>{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <a href="{{ route('admin.news.add') }}" class="btn btn-primary mb-3">Buat Berita</a>
 
         <div class="table-responsive">
             <table class="table text-center align-middle">
@@ -65,17 +61,15 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                    <a href="{{ route('admin.news.edit', $news->id) }}" class="btn btn-success btn-sm"><i
-                                            class="bi bi-pencil"></i></a>
-                                    <form>
-                                        <!-- Tombol Delete -->
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal" data-id="{{ $news->id }}">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-
-                                    </form>
-
+                                    <a href="{{ route('admin.news.edit', $news->id) }}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" 
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal" 
+                                            data-id="{{ $news->id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -100,4 +94,5 @@
             });
         </script>
     @endpush
+
 @endsection

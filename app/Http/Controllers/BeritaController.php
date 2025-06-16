@@ -10,4 +10,15 @@ class BeritaController extends Controller
     $pageTitle = 'Artikel Berita';
     return view('pages.berita', compact('pageTitle'));
 }
+
+public function show($id)
+{
+    $berita = \DB::table('artikel')->find($id);
+    if (!$berita) {
+        abort(404);
+    }
+
+    return view('admin.berita.show', compact('berita'));
+}
+
 }
