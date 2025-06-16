@@ -6,6 +6,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminDonasiController;
+use Midtrans\Snap;
 
 // Halaman Umum
 Route::get('/', [WelcomeController::class, 'index']);
@@ -42,5 +43,35 @@ Route::delete('/admin/berita/{id}', [AdminController::class, 'destroy'])->name('
 
 
 // Donasi
+Route::get('/donasi/view', [DonasiController::class, 'view'])->name('pages.viewDonasi');
+
+
 Route::get('/admin/donasi', [AdminDonasiController::class, 'index'])->name('admin.donasi.list');
 Route::get('/admin/donasi/view', [AdminDonasiController::class, 'view'])->name('admin.donasi.view');
+Route::get('/admin/donasi/add', [AdminDonasiController::class, 'add'])->name('admin.donasi.add');
+
+
+
+// Test Koneksi Midtrans
+Route::get('/midtrans-test', function () {
+    try {
+        $params = [
+            'transaction_details' => [
+                'order_id' => 'TEST-' . rand(),
+                'gross_amount' => 10000,
+            ],
+            'customer_details' => [
+                'first_name' => 'Test',
+                'last_name' => 'User',
+                'email' => 'test@example.com',
+                'phone' => '081234567890',
+            ],
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+        return "Midtrans Connected! Snap Token: <br><code>$snapToken</code>";
+    } catch (\Exception $e) {
+        return "Midtrans Connection Failed: " . $e->getMessage();
+    }
+});

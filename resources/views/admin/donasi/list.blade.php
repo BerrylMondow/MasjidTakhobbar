@@ -7,7 +7,7 @@
   <div class="d-flex justify-content-between mb-4">
     <input type="text" class="form-control w-50 me-3" placeholder="Cari Daftar Donasi">
     <div>
-      <a href="#" class="btn btn-primary me-2">Buat Donasi</a>
+      <a href="{{route('admin.donasi.add')}}" class="btn btn-primary me-2">Buat Donasi</a>
       <button class="btn btn-danger">Filters</button>
     </div>
   </div>
@@ -25,6 +25,14 @@
           <p class="card-text text-muted mb-1">
             <small class="fw-bold text-primary"><i class="bi bi-clock"></i> Desember 16, 2023</small>
           </p>
+           <div class="d-flex align-items-center mt-3 mb-3">
+                            <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
+                                class="rounded-circle me-2" alt="Lembaga" width="30" height="30">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-medium me-1">Yayasan Al-Mualim Su...</span> <!--Jika lebih dari 20 karakter muncul ... -->
+                                <i class="bi bi-patch-check-fill text-success verified-icon"></i>
+                            </div>
+                        </div>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel justo nec arcu eleifend aliquet...
           </p>
@@ -45,6 +53,14 @@
           <p class="card-text text-muted mb-1">
             <small class="fw-bold text-primary"><i class="bi bi-clock"></i> Desember 16, 2023</small>
           </p>
+           <div class="d-flex align-items-center mt-3 mb-3">
+                            <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
+                                class="rounded-circle me-2" alt="Lembaga" width="30" height="30">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-medium me-1">Masjid Takhobbar</span>
+                                <i class="bi bi-patch-check-fill text-success verified-icon"></i>
+                            </div>
+                        </div>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel justo nec arcu eleifend aliquet...
           </p>
@@ -65,6 +81,14 @@
           <p class="card-text text-muted mb-1">
             <small class="fw-bold text-primary"><i class="bi bi-clock"></i> Desember 16, 2023</small>
           </p>
+           <div class="d-flex align-items-center mt-3 mb-3">
+                            <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
+                                class="rounded-circle me-2" alt="Lembaga" width="30" height="30">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-medium me-1">Masjid Takhobbar</span>
+                                <i class="bi bi-patch-check-fill text-success verified-icon"></i>
+                            </div>
+                        </div>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel justo nec arcu eleifend aliquet...
           </p>
@@ -84,6 +108,14 @@
           <p class="card-text text-muted mb-1">
             <small class="fw-bold text-primary"><i class="bi bi-clock"></i> Desember 16, 2023</small>
           </p>
+           <div class="d-flex align-items-center mt-3 mb-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/640px-ChessSet.jpg"
+                                class="rounded-circle me-2" alt="Lembaga" width="30" height="30">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-medium me-1">Nama Lembaga</span>
+                                <i class="bi bi-patch-check-fill verified-icon"></i>
+                            </div>
+                        </div>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel justo nec arcu eleifend aliquet...
           </p>
@@ -103,6 +135,14 @@
           <p class="card-text text-muted mb-1">
             <small class="fw-bold text-primary"><i class="bi bi-clock"></i> Desember 16, 2023</small>
           </p>
+           <div class="d-flex align-items-center mt-3 mb-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/640px-ChessSet.jpg"
+                                class="rounded-circle me-2" alt="Lembaga" width="30" height="30">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-medium me-1">Nama Lembaga</span>
+                                <i class="bi bi-patch-check-fill verified-icon"></i>
+                            </div>
+                        </div>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel justo nec arcu eleifend aliquet...
           </p>
@@ -122,6 +162,14 @@
           <p class="card-text text-muted mb-1">
             <small class="fw-bold text-primary"><i class="bi bi-clock"></i> Desember 16, 2023</small>
           </p>
+           <div class="d-flex align-items-center mt-3 mb-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/640px-ChessSet.jpg"
+                                class="rounded-circle me-2" alt="Lembaga" width="30" height="30">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-medium me-1">Nama Lembaga</span>
+                                <i class="bi bi-patch-check-fill verified-icon"></i>
+                            </div>
+                        </div>
           <p class="card-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel justo nec arcu eleifend aliquet...
           </p>

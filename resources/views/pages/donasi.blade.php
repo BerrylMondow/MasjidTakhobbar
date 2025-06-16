@@ -42,7 +42,7 @@
                         class="card-img-top" alt="Zakat Fitrah">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0 fw-bold">Zakat Fitrah</h5>
+                            <h5 class="card-title mb-0 fw-bold">Lorem Ipsum dolor sir...</h5>
                             <div>
                                 <span class="badge bg-success badge-custom">Zakat</span>
                                 <span class="badge bg-danger badge-custom">Ramadhan</span>
@@ -64,13 +64,13 @@
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/640px-ChessSet.jpg"
                                 class="rounded-circle me-2" alt="Lembaga" width="40" height="40">
                             <div class="d-flex align-items-center">
-                                <span class="fw-medium">Nama Lembaga</span>
+                                <span class="fw-medium">Yayasan Al-Mualim Su...</span>
                                 <i class="bi bi-patch-check-fill verified-icon"></i>
                             </div>
                         </div>
 
                         <!-- Button -->
-                        <a href="#" class="btn btn-success w-100 mt-4 donation-btn">Mulai Bayar Zakat</a>
+                        <a href="{{route('pages.viewDonasi')}}" class="btn btn-success w-100 mt-4 donation-btn">Mulai Bayar Zakat</a>
                     </div>
                 </div>
             </div>

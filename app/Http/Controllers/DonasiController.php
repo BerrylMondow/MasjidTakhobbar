@@ -10,4 +10,8 @@ class DonasiController extends Controller
     $pageTitle = 'Donasi';
     return view('pages.donasi', compact('pageTitle'));
 }
+    public function view() {
+    $pageTitle = 'Donasi';
+    return view('pages.viewDonasi', compact('pageTitle'));
+}
 }
