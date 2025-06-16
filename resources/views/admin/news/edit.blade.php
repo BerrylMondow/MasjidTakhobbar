@@ -20,7 +20,7 @@
                         <label for="gambar" class="form-label">Ganti Gambar (Opsional)</label>
                         <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
                         <small class="text-muted">Biarkan kosong jika tidak ingin mengganti gambar.</small><br>
-                        <img src="{{ asset('uploads/berita/' . $news->gambar) }}" alt="Gambar Lama" width="150" class="mt-2">
+                        <img src="{{ asset('storage/berita/' . $news->gambar) }}" alt="Gambar Lama" width="150" class="mt-2">
                     </div>
 
                     <div class="mb-3">

@@ -12,7 +12,16 @@ class AdminDonasiController extends Controller
         return redirect()->route('admin.login');
     }
 
-    $pageTitle = 'Manajemen Berita';
+    $pageTitle = 'Manajemen Donasi';
     return view('admin.donasi.list', compact('pageTitle'));
+}
+        public function view()
+{
+    if (!session('is_admin')) {
+        return redirect()->route('admin.login');
+    }
+
+    $pageTitle = 'View Donasi';
+    return view('admin.donasi.view', compact('pageTitle'));
 }
 }

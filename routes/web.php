@@ -43,3 +43,4 @@ Route::delete('/admin/berita/{id}', [AdminController::class, 'destroy'])->name('
 
 // Donasi
 Route::get('/admin/donasi', [AdminDonasiController::class, 'index'])->name('admin.donasi.list');
+Route::get('/admin/donasi/view', [AdminDonasiController::class, 'view'])->name('admin.donasi.view');
