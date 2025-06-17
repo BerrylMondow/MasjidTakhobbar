@@ -17,7 +17,8 @@ Route::get('/home', function () {
 
 Route::get('/donasi', [DonasiController::class, 'index'])->name('donasi');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita');
-Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('pages.newsDetail');
+Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
+
 
 // Login Admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.login');
@@ -49,6 +50,15 @@ Route::get('/donasi/view', [DonasiController::class, 'view'])->name('pages.viewD
 Route::get('/admin/donasi', [AdminDonasiController::class, 'index'])->name('admin.donasi.list');
 Route::get('/admin/donasi/view', [AdminDonasiController::class, 'view'])->name('admin.donasi.view');
 Route::get('/admin/donasi/add', [AdminDonasiController::class, 'add'])->name('admin.donasi.add');
+Route::post('/admin/donasi/store', [AdminDonasiController::class, 'store'])->name('admin.donasi.store');
+Route::delete('/admin/donasi/{id}', [AdminDonasiController::class, 'destroy'])->name('admin.donasi.destroy');
+Route::get('/admin/donasi/{id}/edit', [AdminDonasiController::class, 'edit'])->name('admin.donasi.edit');
+
+Route::put('/admin/donasi/{id}', [AdminDonasiController::class, 'update'])->name('admin.donasi.update');
+Route::get('/admin/donasi/bayar', [AdminDonasiController::class, 'bayar'])->name('admin.donasi.bayar');
+
+
+
 
 
 

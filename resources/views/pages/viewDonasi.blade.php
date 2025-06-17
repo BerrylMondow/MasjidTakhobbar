@@ -47,6 +47,7 @@
                 <input type="email" class="form-control" placeholder="Masukkan Email">
             </div>
             <button type="submit" class="btn btn-success w-100">Mulai Bayar Zakat</button>
+            
         </form>
     </div>
 @endsection
