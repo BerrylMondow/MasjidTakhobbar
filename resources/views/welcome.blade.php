@@ -78,6 +78,9 @@
     <!-- ✅ SECTION JADWAL SHOLAT -->
     <section class="JadwalSholat">
         <div class="container w-25 my-5">
+            <div class="container section-title mb-4">
+                <h1 class="text-center text-uppercase fw-bold">Jadwal Sholat</h1>
+            </div>
             <div class="bg-danger text-white rounded p-4 text-center">
                 <h5 id="today-date" class="mb-3">Senin, 1 Januari 2000</h5>
                 <h1 id="next-prayer-name" class="fw-bold">Sholat</h1>
@@ -99,7 +102,7 @@
         </div>
 
         <div class="container">
-            <h1 class="text-center text-uppercase fw-bold">Jadwal Sholat</h1>
+
             <div class="container-fluid">
                 <ul class="list-group w-50 mt-4 mx-auto" id="prayer-list">
                     <!-- Akan diisi otomatis oleh JS -->
@@ -171,39 +174,39 @@
     </section>
 
     <section class="Infaq my-5">
-  <div class="container">
-    <h1 class="text-center text-uppercase fw-bold mb-4">Infaq Masjid</h1>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">Tanggal</th>
-            <th scope="col">Nominal</th>
-            <th scope="col">Keterangan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>17 Juni 2025</td>
-            <td>Rp 100.000</td>
-            <td>Infaq Pembangunan</td>
-          </tr>
-          <tr>
-            <td>18 Juni 2025</td>
-            <td>Rp 50.000</td>
-            <td>Infaq Sholat Jum'at</td>
-          </tr>
-          <tr>
-            <td>19 Juni 2025</td>
-            <td>Rp 200.000</td>
-            <td>Infaq Rutin</td>
-          </tr>
-          <!-- Tambahkan baris lainnya sesuai kebutuhan -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+        <div class="container">
+            <h1 class="text-center text-uppercase fw-bold mb-4">Infaq Masjid</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Nominal</th>
+                            <th scope="col">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>17 Juni 2025</td>
+                            <td>Rp 100.000</td>
+                            <td>Infaq Pembangunan</td>
+                        </tr>
+                        <tr>
+                            <td>18 Juni 2025</td>
+                            <td>Rp 50.000</td>
+                            <td>Infaq Sholat Jum'at</td>
+                        </tr>
+                        <tr>
+                            <td>19 Juni 2025</td>
+                            <td>Rp 200.000</td>
+                            <td>Infaq Rutin</td>
+                        </tr>
+                        <!-- Tambahkan baris lainnya sesuai kebutuhan -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
 
 

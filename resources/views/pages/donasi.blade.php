@@ -1,4 +1,5 @@
 @extends('layout.app')
+
 @section('content')
     <style>
         .card-img-top {
@@ -8,184 +9,97 @@
             object-fit: cover;
         }
 
-        .badge-custom {
-            font-size: 0.75rem;
-            padding: 0.4em 0.6em;
-        }
-
         .progress {
-            height: 10px;
+            height: 8px;
             border-radius: 5px;
         }
 
         .verified-icon {
-            color: #0d6efd;
             font-size: 1rem;
             margin-left: 4px;
         }
 
         .donation-btn {
-            border-radius: 0.75rem;
-            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
         }
 
         .card {
             border-radius: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
     </style>
 
-    <div class="container" style="margin-top: 90px; margin-bottom: 40px;">
-        <div class="row row-cols-3">
-            <div class="col">
-                <div class="card shadow mx-auto" style="max-width: 400px;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chess_pieces_close_up.jpg/1200px-Chess_pieces_close_up.jpg"
-                        class="card-img-top" alt="Zakat Fitrah">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0 fw-bold">Lorem Ipsum dolor sir...</h5>
-                            <!-- Badge dihapus -->
-                        </div>
+    <div class="container py-5" style="margin-top: 80px;">
+        <h2 class="text-center mb-5 fw-bold">Daftar Program Donasi</h2>
+        <div class="row g-4">
+            @forelse ($donasis as $donasi)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm h-100">
+                        <img src="{{ asset('storage/' . $donasi->gambar) }}" class="card-img-top"
+                            alt="{{ $donasi->nama_program }}">
 
-                        <!-- Progress Bar -->
-                        <div class="mt-3">
-                            <div class="progress mb-2">
-                                <div class="progress-bar bg-success" style="width: 30%;"></div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">{{ $donasi->nama_program }}</h5>
+
+                            <!-- Progress Bar -->
+                            @php
+                                $terkumpul = 0; // ganti dengan nilai real jika ada
+                                $target = $donasi->unlimited_target ? null : $donasi->target;
+                                $progress = $target ? min(100, ($terkumpul / $target) * 100) : 100;
+                            @endphp
+
+                            <div class="my-3">
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" style="width: {{ $progress }}%;"></div>
+                                </div>
+                                <small class="d-block mt-1">
+                                    <span class="text-success fw-semibold">Rp{{ number_format($terkumpul, 0, ',', '.') }}</span>
+                                    terkumpul dari
+                                    @if ($donasi->unlimited_target)
+                                        <strong class="text-danger">∞ Tak Terbatas</strong>
+                                    @else
+                                        <strong class="text-danger">Rp{{ number_format($target, 0, ',', '.') }}</strong>
+                                    @endif
+                                </small>
                             </div>
-                            <small>
-                                <span class="text-success fw-bold">Rp.1.000.000</span> terkumpul dari <strong class="text-danger">Rp.5.000.000</strong>
-                            </small>
-                        </div>
 
-                        <!-- Lembaga Info -->
-                        <div class="d-flex align-items-center mt-3">
-                            <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
-                                class="rounded-circle me-2" alt="Lembaga" width="40" height="40">
-                            <div class="d-flex align-items-center">
+                            <!-- Info Lembaga -->
+                            <div class="d-flex align-items-center mt-auto">
+                                <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
+                                    alt="Masjid Takhobbar"
+                                    class="rounded-circle me-2" width="40" height="40">
                                 <span class="fw-medium">Masjid Takhobbar</span>
-                                <i class="bi bi-patch-check-fill text-danger verified-icon"></i>
+                                <i class="bi bi-patch-check-fill text-primary verified-icon"></i>
                             </div>
-                        </div>
 
-                        <!-- Button -->
-                        <a href="{{ route('pages.viewDonasi') }}" class="btn btn-success w-100 mt-4 donation-btn">Mulai
-                            Berdonasi</a>
+                            <!-- Tombol Donasi -->
+                            @if ($target && $terkumpul >= $target)
+                                <button class="btn btn-secondary w-100 mt-3 donation-btn" disabled>
+                                    Donasi sudah Tercapai
+                                </button>
+                            @else
+                                <a href="{{ route('pages.viewDonasi', $donasi->id) }}"
+                                   class="btn btn-success w-100 mt-3 donation-btn">
+                                    Mulai Berdonasi
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col">
-                <div class="card shadow mx-auto" style="max-width: 400px;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chess_pieces_close_up.jpg/1200px-Chess_pieces_close_up.jpg"
-                        class="card-img-top" alt="Zakat Fitrah">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0 fw-bold">Lorem Ipsum dolor sir...</h5>
-                            <!-- Badge dihapus -->
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="mt-3">
-                            <div class="progress mb-2">
-                                <div class="progress-bar bg-success" style="width: 100%;"></div>
-                            </div>
-                            <small>
-                                <span class="text-success fw-bold">Rp.1.000.000</span> terkumpul dari ∞ Tak Terbatas
-                            </small>
-                        </div>
-
-                        <!-- Lembaga Info -->
-                        <div class="d-flex align-items-center mt-3">
-                            <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
-                                class="rounded-circle me-2" alt="Lembaga" width="40" height="40">
-                            <div class="d-flex align-items-center">
-                                <span class="fw-medium">Masjid Takhobbar</span>
-                                <i class="bi bi-patch-check-fill text-danger verified-icon"></i>
-                            </div>
-                        </div>
-
-                        <!-- Button -->
-                        <a href="{{ route('pages.viewDonasi') }}" class="btn btn-success w-100 mt-4 donation-btn">Mulai
-                            Bayar Zakat</a>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        Belum ada program donasi yang tersedia.
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card shadow mx-auto" style="max-width: 400px;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chess_pieces_close_up.jpg/1200px-Chess_pieces_close_up.jpg"
-                        class="card-img-top" alt="Zakat Fitrah">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0 fw-bold">Lorem Ipsum dolor sir...</h5>
-                            <!-- Badge dihapus -->
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="mt-3">
-                            <div class="progress mb-2">
-                                <div class="progress-bar bg-success" style="width: 100%;"></div>
-                            </div>
-                            <small>
-                                <span class="text-success fw-bold">Rp.1.000.000</span> terkumpul dari ∞ Tak Terbatas
-                            </small>
-                        </div>
-
-                        <!-- Lembaga Info -->
-                        <div class="d-flex align-items-center mt-3">
-                            <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
-                                class="rounded-circle me-2" alt="Lembaga" width="40" height="40">
-                            <div class="d-flex align-items-center">
-                                <span class="fw-medium">Masjid Takhobbar</span>
-                                <i class="bi bi-patch-check-fill text-danger verified-icon"></i>
-                            </div>
-                        </div>
-
-                        <!-- Button -->
-                        <a href="{{ route('pages.viewDonasi') }}" class="btn btn-success w-100 mt-4 donation-btn">Mulai
-                            Bayar Zakat</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-    <div class="card shadow mx-auto" style="max-width: 400px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chess_pieces_close_up.jpg/1200px-Chess_pieces_close_up.jpg"
-            class="card-img-top" alt="Zakat Fitrah">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0 fw-bold">Lorem Ipsum dolor sir...</h5>
-                <!-- Badge dihapus -->
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="mt-3">
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-success" style="width: 100%;"></div>
-                </div>
-                <small>
-                    <span class="text-success fw-bold">Rp.1.000.000</span> terkumpul dari 
-                    <strong class="text-danger">Rp.1.000.000</strong>
-                </small>
-            </div>
-
-            <!-- Lembaga Info -->
-            <div class="d-flex align-items-center mt-3">
-                <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
-                    class="rounded-circle me-2" alt="Lembaga" width="40" height="40">
-                <div class="d-flex align-items-center">
-                    <span class="fw-medium">Masjid Takhobbar</span>
-                    <i class="bi bi-patch-check-fill text-danger verified-icon"></i>
-                </div>
-            </div>
-
-            <!-- Disabled Button -->
-            <a href="#" 
-               class="btn btn-secondary w-100 mt-4 donation-btn disabled" 
-               style="pointer-events: none; cursor: not-allowed; opacity: 0.65;">
-               Donasi sudah Tercapai
-            </a>
-        </div>
-    </div>
-</div>
-
+            @endforelse
         </div>
     </div>
 @endsection

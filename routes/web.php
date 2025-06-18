@@ -6,6 +6,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminDonasiController;
+use App\Http\Controllers\MidtransController;
 use Midtrans\Snap;
 
 // Halaman Umum
@@ -16,6 +17,9 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::get('/donasi', [DonasiController::class, 'index'])->name('donasi');
+Route::post('/donasi/bayar', [DonasiController::class, 'bayar'])->name('donasi.bayar');
+
+
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita');
 Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
@@ -44,7 +48,7 @@ Route::delete('/admin/berita/{id}', [AdminController::class, 'destroy'])->name('
 
 
 // Donasi
-Route::get('/donasi/view', [DonasiController::class, 'view'])->name('pages.viewDonasi');
+Route::get('/donasi/view/{id}', [DonasiController::class, 'view'])->name('pages.viewDonasi');
 
 
 Route::get('/admin/donasi', [AdminDonasiController::class, 'index'])->name('admin.donasi.list');
@@ -57,6 +61,7 @@ Route::get('/admin/donasi/{id}/edit', [AdminDonasiController::class, 'edit'])->n
 Route::put('/admin/donasi/{id}', [AdminDonasiController::class, 'update'])->name('admin.donasi.update');
 Route::get('/admin/donasi/bayar', [AdminDonasiController::class, 'bayar'])->name('admin.donasi.bayar');
 
+Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
 
 
 
