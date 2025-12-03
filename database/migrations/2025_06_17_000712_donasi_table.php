@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('gambar'); // Wajib upload gambar
             $table->string('nama_program'); // Nama program donasi
-            $table->date('tanggal'); // Format tanggal YYYY-MM-DD (nanti format di view)
+            $table->date('tanggal'); // Format tanggal YYYY-MM-DD
             $table->bigInteger('target')->nullable(); // Bisa null kalau unlimited
             $table->boolean('unlimited_target')->default(false); // Opsi target tak terbatas
             $table->text('deskripsi'); // Deskripsi donasi
-            $table->string('tag')->nullable(); // Tag opsional
+            $table->string('tag')->nullable(); // opsional
             $table->timestamps();
         });
     }

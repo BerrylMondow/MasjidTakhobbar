@@ -18,8 +18,12 @@
 
                 <!-- Sosial Media -->
                 <div class="d-flex gap-3 mt-3 fs-3">
-                    <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+                    <a href="https://web.facebook.com/MasjidTakhobbar/?_rdc=1&_rdr#" class="text-white" target="_blank">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com/masjidtakhobbar/" class="text-white" target="_blank">
+                        <i class="bi bi-instagram"></i>
+                    </a>
                 </div>
             </div>
 

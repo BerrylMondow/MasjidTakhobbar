@@ -40,35 +40,64 @@
             transition: box-shadow 0.2s ease-in-out;
             background-color: rgba(0, 0, 0, 0.056);
         }
+
+        /* ✅ Tambahan untuk mobile */
+        @media (max-width: 768px) {
+
+            .carousel-container {
+                max-height: 300px; /* Lebih pendek di HP */
+                margin-top: 80px;
+            }
+
+            .carousel-item img {
+                height: 300px; /* Cocok dengan max-height container */
+            }
+
+            .carousel-caption {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+
+            .article-card .row {
+                flex-direction: column; /* Tumpuk vertikal di HP */
+            }
+
+            .article-card .col-md-5,
+            .article-card .col-md-7 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .article-card img {
+                height: auto;
+                max-height: 200px;
+                object-fit: cover;
+                width: 100%;
+            }
+        }
     </style>
 
-    <div class="container my-4">
+    <div class="container berita my-4">
         <div id="beritaCarousel" class="carousel slide carousel-container" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @foreach ($carouselBeritas as $index => $berita)
-                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"><a
-                            href="{{ route('berita.show', $berita->id) }}" class="text-decoration-none text-white">
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <a href="{{ route('berita.show', $berita->id) }}" class="text-decoration-none text-white">
                             <img src="{{ asset('storage/berita/' . $berita->gambar) }}" class="d-block w-100" alt="...">
                             <div class="carousel-caption">
-                                <h5>{{ $berita->judul }}
-                        </a></h5>
+                                <h5>{{ $berita->judul }}</h5>
+                            </div>
+                        </a>
                     </div>
+                @endforeach
             </div>
-            @endforeach
+            <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
-
-    </div>
-
-
-
-
     </div>
 
     <div class="container py-4 mt-4">
@@ -81,7 +110,7 @@
                             <div class="row g-0 h-100">
                                 <div class="col-md-5">
                                     <img src="{{ asset('storage/berita/' . $berita->gambar) }}" alt="Picture"
-                                        class="img-fluid h-100 w-100 rounded-start object-fit-cover">
+                                        class="img-fluid w-100 object-fit-cover">
                                 </div>
                                 <div class="col-md-7 p-3 d-flex flex-column">
                                     <div class="article-title fw-bold fs-5">

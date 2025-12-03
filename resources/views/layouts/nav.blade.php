@@ -40,7 +40,8 @@
 <nav class="navbar navbar-transparent fixed-top navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}" alt="Logo Masjid" width="40" height="40" class="me-2">
+      <img src="{{ asset('images/masjidTakhobbar.png') }}" alt="Logo Masjid" width="40" height="40" class="me-2">
+
       <b>Masjid Takhobbar</b>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -53,7 +54,7 @@
           <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Tentang Kami</a>
+          <a class="nav-link" href="{{ route('about') }}">Tentang Kami</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('donasi') }}">Donasi</a>

@@ -25,4 +25,10 @@ class Donasi extends Model
         'unlimited_target' => 'boolean',
         'tanggal' => 'date',
     ];
+
+    public function pembayaran()
+{
+    return $this->hasMany(Transaksi::class, 'donasi_id');
+}
+
 }

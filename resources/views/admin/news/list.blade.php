@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <a href="{{ route('admin.news.add') }}" class="btn btn-primary mb-3">Buat Berita</a>
+        <a href="{{ route('admin.news.add') }}" class="btn btn-primary mb-3"><i class="bi bi-plus-circle-fill"></i> Buat Berita</a>
 
         <div class="table-responsive">
             <table class="table text-center align-middle">

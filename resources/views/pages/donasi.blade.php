@@ -43,37 +43,38 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card shadow-sm h-100">
                         <img src="{{ asset('storage/' . $donasi->gambar) }}" class="card-img-top"
-                            alt="{{ $donasi->nama_program }}">
+                            alt="{{ $donasi->nama_program }}" >
 
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold">{{ $donasi->nama_program }}</h5>
 
                             <!-- Progress Bar -->
                             @php
-                                $terkumpul = 0; // ganti dengan nilai real jika ada
+                                $terkumpul = $donasi->terkumpul ?? 0;
                                 $target = $donasi->unlimited_target ? null : $donasi->target;
-                                $progress = $target ? min(100, ($terkumpul / $target) * 100) : 100;
+                                $progress = $target && $target > 0 ? min(100, ($terkumpul / $target) * 100) : 100;
                             @endphp
+
 
                             <div class="my-3">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width: {{ $progress }}%;"></div>
                                 </div>
                                 <small class="d-block mt-1">
-                                    <span class="text-success fw-semibold">Rp{{ number_format($terkumpul, 0, ',', '.') }}</span>
+                                    <span
+                                        class="text-success fw-semibold">Rp.{{ number_format($terkumpul, 0, ',', '.') }}</span>
                                     terkumpul dari
                                     @if ($donasi->unlimited_target)
                                         <strong class="text-danger">∞ Tak Terbatas</strong>
                                     @else
-                                        <strong class="text-danger">Rp{{ number_format($target, 0, ',', '.') }}</strong>
+                                        <strong class="text-danger">Rp.{{ number_format($target, 0, ',', '.') }}</strong>
                                     @endif
                                 </small>
                             </div>
 
                             <!-- Info Lembaga -->
                             <div class="d-flex align-items-center mt-auto">
-                                <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}"
-                                    alt="Masjid Takhobbar"
+                                <img src="{{ asset('images/masjidTakhobbar.png') }}" alt="Masjid Takhobbar"
                                     class="rounded-circle me-2" width="40" height="40">
                                 <span class="fw-medium">Masjid Takhobbar</span>
                                 <i class="bi bi-patch-check-fill text-primary verified-icon"></i>
@@ -86,7 +87,7 @@
                                 </button>
                             @else
                                 <a href="{{ route('pages.viewDonasi', $donasi->id) }}"
-                                   class="btn btn-success w-100 mt-3 donation-btn">
+                                    class="btn btn-success w-100 mt-3 donation-btn">
                                     Mulai Berdonasi
                                 </a>
                             @endif

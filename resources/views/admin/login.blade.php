@@ -38,7 +38,7 @@
 
 <div class="container d-flex justify-content-center align-items-center login-container mb-4">
     <div class="text-center">
-      <img src="{{ Vite::asset('resources/img/masjidTakhobbar.png') }}" alt="Logo Masjid" class="login-logo rounded-circle p-3">
+      <img src="{{ asset('images/masjidTakhobbar.png') }}" alt="Logo Masjid" class="login-logo rounded-circle p-3">
       <div class="login-card mt-2">
         @if ($errors->any())
           <div class="alert alert-danger">{{ $errors->first() }}</div>

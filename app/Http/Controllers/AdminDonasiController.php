@@ -3,23 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donasi;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+ use Carbon\Carbon;
 
 class AdminDonasiController extends Controller
 {
-    public function index()
+
+public function index(Request $request)
+{
+    if (!session('is_admin')) {
+        return redirect()->route('admin.login');
+    }
+
+    // Mulai query donasi
+    $query = Donasi::query();
+
+    // Jika ada parameter search
+    if ($request->has('search') && $request->search != '') {
+        $search = $request->search;
+        $query->where('nama_program', 'like', "%{$search}%")
+              ->orWhere('deskripsi', 'like', "%{$search}%");
+    }
+
+    // Ambil hasil terbaru
+    $donasi = $query->latest()->get();
+
+    $pageTitle = 'Manajemen Donasi';
+    return view('admin.donasi.list', compact('pageTitle', 'donasi'));
+}
+
+
+    public function show($id)
     {
-        if (!session('is_admin')) {
-            return redirect()->route('admin.login');
-        }
+        $donasi = Donasi::findOrFail($id);
 
-        
+        $terkumpul = $donasi->pembayaran()->where('status', 'Success')->sum('nominal');
+        $donaturs = $donasi->pembayaran()->where('status', 'Success')->get();
 
-        $donasi = Donasi::latest()->get();
+        $donasi->terkumpul = $terkumpul;
         $pageTitle = 'Manajemen Donasi';
-        return view('admin.donasi.list', compact('pageTitle', 'donasi'));
+        return view('admin.donasi.view', compact('donasi', 'donaturs', 'pageTitle'));
     }
 
     public function add()
@@ -33,46 +58,42 @@ class AdminDonasiController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'gambar' => 'required|image|max:5000',
-        'nama_program' => 'required|string|max:255',
-        'tanggal' => 'required|date',
-        'unlimited_target' => 'nullable|boolean',
-        'target' => 'nullable|numeric|min:0',
-        'deskripsi' => 'required',
-        'tag' => 'nullable|string|max:255',
-    ]);
+    {
+        $request->validate([
+            'gambar' => 'required|image|max:5000',
+            'nama_program' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'unlimited_target' => 'nullable|boolean',
+            'target' => 'nullable|string',
+            'deskripsi' => 'required',
+            'tag' => 'nullable|string|max:255',
+        ]);
 
-    // Upload gambar
-    $path = $request->file('gambar')->store('donasi', 'public');
+        $path = $request->file('gambar')->store('donasi', 'public');
 
-    // Logic target
-    $unlimited = $request->has('unlimited_target');
-    $target = $unlimited ? null : $request->target;
+        $unlimited = $request->has('unlimited_target');
+        $target = $unlimited ? null : str_replace('.', '', $request->target);
 
-    // Simpan
-    Donasi::create([
-        'gambar' => $path,
-        'nama_program' => $request->nama_program,
-        'tanggal' => $request->tanggal, // tidak perlu Carbon
-        'unlimited_target' => $unlimited,
-        'target' => $target,
-        'deskripsi' => $request->deskripsi,
-        'tag' => $request->tag,
-    ]);
+        Donasi::create([
+            'gambar' => $path,
+            'nama_program' => $request->nama_program,
+            'tanggal' => $request->tanggal,
+            'unlimited_target' => $unlimited,
+            'target' => $target,
+            'deskripsi' => $request->deskripsi,
+            'tag' => $request->tag,
+        ]);
 
-    return redirect()->route('admin.donasi.list')->with('success', 'Donasi berhasil ditambahkan.');
+        return redirect()->route('admin.donasi.list')->with('success', 'Donasi berhasil ditambahkan.');
     }
 
-     public function edit($id)
-{
-    $pageTitle = 'Edit Donasi';
-    $donasi = Donasi::findOrFail($id);
+    public function edit($id)
+    {
+        $pageTitle = 'Edit Donasi';
+        $donasi = Donasi::findOrFail($id);
 
-    return view('admin.donasi.edit', compact('donasi', 'pageTitle'));
-}
-
+        return view('admin.donasi.edit', compact('donasi', 'pageTitle'));
+    }
 
     public function update(Request $request, $id)
     {
@@ -82,13 +103,12 @@ class AdminDonasiController extends Controller
             'gambar' => 'nullable|image|max:5000',
             'nama_program' => 'required|string|max:255',
             'tanggal' => 'required|date',
-            'target' => 'nullable|numeric',
+            'target' => 'nullable|string',
             'deskripsi' => 'required|string',
             'tag' => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
             if ($donasi->gambar) {
                 Storage::disk('public')->delete($donasi->gambar);
             }
@@ -97,6 +117,12 @@ class AdminDonasiController extends Controller
 
         $validated['unlimited_target'] = $request->has('unlimited_target') ? 1 : 0;
 
+        if ($validated['unlimited_target']) {
+            $validated['target'] = null;
+        } else {
+            $validated['target'] = str_replace('.', '', $request->target);
+        }
+
         $donasi->update($validated);
 
         return redirect()->route('admin.donasi.list')->with('success', 'Donasi berhasil diupdate!');
@@ -104,14 +130,43 @@ class AdminDonasiController extends Controller
 
     public function destroy($id)
     {
-    $donasi = Donasi::findOrFail($id);
-    Storage::delete('public/' . $donasi->gambar);
-    $donasi->delete();
-    return redirect()->route('admin.donasi.list')->with('success', 'Donasi berhasil dihapus.');
+        $donasi = Donasi::findOrFail($id);
+        Storage::delete('public/' . $donasi->gambar);
+        $donasi->delete();
+        return redirect()->route('admin.donasi.list')->with('success', 'Donasi berhasil dihapus.');
     }
 
+   
 
+public function dashboard()
+    {
+        if (!session('is_admin')) {
+            return redirect()->route('admin.login');
+        }
+
+        // Range bulan ini
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        // Total nominal donasi bulan ini (hanya status Success)
+        $totalDonasi = Transaksi::where('status', 'Success')
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->sum('nominal');
+
+        // Jumlah transaksi/donasi bulan ini
+        $jumlahDonasi = Transaksi::where('status', 'Success')
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->count();
+
+        // Total berita (contoh yang sudah ada)
+        $pageTitle = 'Dashboard Admin';
+        $totalBerita = Berita::count();
+
+        return view('admin.dashboard', compact(
+            'pageTitle',
+            'totalBerita',
+            'totalDonasi',
+            'jumlahDonasi'
+        ));
+    }
 }
-
-
-

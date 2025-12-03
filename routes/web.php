@@ -6,15 +6,19 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminDonasiController;
-use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\InfaqController;
+use App\Http\Controllers\ProfileController;
+
 use Midtrans\Snap;
 
 // Halaman Umum
 Route::get('/', [WelcomeController::class, 'index']);
-Route::get('/home', function () {
-    $pageTitle = "Beranda";
-    return view('welcome', compact('pageTitle'));
-})->name('home');
+Route::get('/home', [WelcomeController::class, 'index'])->name('home');
+
+// Tentang Kami
+Route::get('/profile', [ProfileController::class, 'index'])->name('about');
+
+
 
 Route::get('/donasi', [DonasiController::class, 'index'])->name('donasi');
 Route::post('/donasi/bayar', [DonasiController::class, 'bayar'])->name('donasi.bayar');
@@ -30,6 +34,9 @@ Route::post('/admin', [AdminController::class, 'login'])->name('admin.login.subm
 
 // Dashboard Admin
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminDonasiController::class, 'dashboardDonasi'])->name('admin.dashboard'); // Dashboard Donasi
+Route::get('/admin/dashboard', [AdminController::class, 'dashboardBerita'])->name('admin.dashboard'); 
+
 
 // Logout
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
@@ -52,18 +59,34 @@ Route::get('/donasi/view/{id}', [DonasiController::class, 'view'])->name('pages.
 
 
 Route::get('/admin/donasi', [AdminDonasiController::class, 'index'])->name('admin.donasi.list');
-Route::get('/admin/donasi/view', [AdminDonasiController::class, 'view'])->name('admin.donasi.view');
 Route::get('/admin/donasi/add', [AdminDonasiController::class, 'add'])->name('admin.donasi.add');
 Route::post('/admin/donasi/store', [AdminDonasiController::class, 'store'])->name('admin.donasi.store');
 Route::delete('/admin/donasi/{id}', [AdminDonasiController::class, 'destroy'])->name('admin.donasi.destroy');
 Route::get('/admin/donasi/{id}/edit', [AdminDonasiController::class, 'edit'])->name('admin.donasi.edit');
+Route::get('/admin/donasi/{id}', [AdminDonasiController::class, 'show'])->name('admin.donasi.view');
+
+
 
 Route::put('/admin/donasi/{id}', [AdminDonasiController::class, 'update'])->name('admin.donasi.update');
 Route::get('/admin/donasi/bayar', [AdminDonasiController::class, 'bayar'])->name('admin.donasi.bayar');
 
-Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
 
 
+Route::get('/infaq', [InfaqController::class, 'index'])->name('admin.keuangan.list');
+Route::get('/admin/infaq/create', [InfaqController::class, 'create'])->name('admin.keuangan.add');
+Route::post('/admin/infaq', [InfaqController::class, 'store'])->name('admin.keuangan.store');
+Route::get('/admin/infaq/{id}/edit', [InfaqController::class, 'edit'])->name('admin.keuangan.edit');
+Route::put('/admin/infaq/{id}', [InfaqController::class, 'update'])->name('admin.keuangan.update');
+Route::delete('/admin/keuangan/{id}', [InfaqController::class, 'destroy'])->name('admin.keuangan.destroy');
+
+
+Route::post('/midtrans/callback', [DonasiController::class, 'callback']);
+
+
+
+Route::get('/ping', function () {
+    return response()->json(['status' => 'API aktif']);
+});
 
 
 

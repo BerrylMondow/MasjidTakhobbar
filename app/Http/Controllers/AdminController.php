@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Transaksi;
+use App\Models\Infaq;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
 
 class AdminController extends Controller
 {
@@ -15,17 +20,19 @@ class AdminController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $username = $request->input('username');
-        $password = $request->input('password');
+{
+    $username = $request->input('username');
+    $password = $request->input('password');
 
-        if ($username === 'admin' && $password === 'dijsam2024') {
-            session(['is_admin' => true]);
-            return redirect()->route('admin.dashboard');
-        }
+    $admin = Admin::where('username', $username)->first();
 
-        return back()->withErrors(['login' => 'Username atau password salah']);
+    if ($admin && Hash::check($password, $admin->password)) {
+        session(['is_admin' => true]);
+        return redirect()->route('admin.dashboard');
     }
+
+    return back()->withErrors(['login' => 'Username atau password salah']);
+}
 
     public function dashboard()
     {
@@ -61,31 +68,37 @@ class AdminController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'tanggal' => 'required|date',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'gambar_caption' => 'nullable|string|max:255',
-            'keyword' => 'required|string|max:255',
-        ]);
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
+        'tanggal' => 'required|date',
+        'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'gambar_caption' => 'nullable|string|max:255',
+        'keyword' => 'required|string|max:255',
+    ]);
 
-        // Upload gambar ke storage/berita
-        $gambarName = time() . '.' . $request->gambar->extension();
-        $request->file('gambar')->storeAs('berita', $gambarName, 'public');
-
-        Berita::create([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'tanggal' => $request->tanggal,
-            'gambar' => $gambarName,
-            'gambar_caption' => $request->gambar_caption,
-            'keyword' => $request->keyword,
-        ]);
-
-        return redirect()->route('admin.news.list')->with('success', 'Berita berhasil disimpan!');
+    if (!$request->hasFile('gambar') || !$request->file('gambar')->isValid()) {
+        return back()->withErrors(['gambar' => 'Gagal mengunggah gambar.']);
     }
+
+    $file = $request->file('gambar');
+    $ext = strtolower($file->getClientOriginalExtension());
+    $fileName = time() . '.' . $ext;
+    $file->storeAs('berita', $fileName, 'public');
+
+    Berita::create([
+        'judul' => $request->judul,
+        'deskripsi' => $request->deskripsi,
+        'tanggal' => $request->tanggal,
+        'gambar' => $fileName,
+        'gambar_caption' => $request->gambar_caption,
+        'keyword' => $request->keyword,
+    ]);
+
+    return redirect()->route('admin.news.list')->with('success', 'Berita berhasil disimpan!');
+}
+
 
     public function edit($id)
     {
@@ -136,5 +149,32 @@ class AdminController extends Controller
 
     return redirect()->route('admin.news.list')->with('success', 'Berita berhasil dihapus.');
 }
+
+public function dashboardBerita()
+    {
+    if (!session('is_admin')) {
+        return redirect()->route('admin.login');
+    }
+
+    // Total berita yang sudah publish
+    $totalBerita = \App\Models\Berita::count();
+
+    // Total donasi 
+    $totalDonasi = \App\Models\Transaksi::where('status', 'Success')->sum('nominal');
+    $jumlahDonasi = \App\Models\Transaksi::where('status', 'Success')->count();
+
+    // 🔥 Total infaq & sedekah
+    $totalInfaq = Infaq::sum('nominal');
+
+    $pageTitle = 'Dashboard Admin';
+    return view('admin.dashboard', compact(
+        'pageTitle',
+        'totalBerita',
+        'totalDonasi',
+        'jumlahDonasi',
+        'totalInfaq'
+    ));
+}
+
 
 }
